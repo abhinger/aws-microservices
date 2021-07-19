@@ -6,20 +6,13 @@ import { getBookByID } from './getBook';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 /**
- * update stock of a book by id
  *
- * @param {object} event containg all the information about the event execution ex: body, headers
- * @param {object} context containing some meta data of app
- * @return {object} updated data in response
+ *
+ * @export
+ * @param {string} id
+ * @return {object} updated book stock
  */
-async function updateStock(event, context) {
-  const { id } = event.pathParameters;
-  const { stock } = event.body;
-  const book = await getBookByID(id);
-
-  if (!book) {
-    throw new createHttpError.NotFound('Not Found');
-  }
+export async function updateStockById(id, stock) {
   const params = {
     TableName: process.env.BOOK_TABLE_NAME,
     Key: { id },
@@ -40,6 +33,25 @@ async function updateStock(event, context) {
   if (!updatedStock) {
     throw new createHttpError.NotFound('Not Found');
   }
+  return updatedStock;
+}
+
+/**
+ * update stock of a book by id
+ *
+ * @param {object} event containg all the information about the event execution ex: body, headers
+ * @param {object} context containing some meta data of app
+ * @return {object} updated data in response
+ */
+async function updateStock(event, context) {
+  const { id } = event.pathParameters;
+  const { stock } = event.body;
+  const book = await getBookByID(id);
+
+  if (!book) {
+    throw new createHttpError.NotFound('Not Found');
+  }
+  const updatedStock = await updateStockById(id, stock);
   return {
     statusCode: 200,
     body: JSON.stringify(updatedStock),

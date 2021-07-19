@@ -13,12 +13,14 @@ provider:
   region: eu-west-1
   environment:
     BOOK_TABLE_NAME: ${self:custom.BookTable.name}
+    ORDER_TABLE_NAME: ${self:custom.OrderTable.name}
   iamRoleStatements:
     - ${file(iam/BookTableIAM.yml):BookTableIAM}
-
+    - ${file(iam/OrderTableIAM.yml):OrderTableIAM}
 resources:
   Resources:
     BookTable: ${file(resources/BookTable.yml):BookTable}
+    OrderTable: ${file(resources/OrderTable.yml):OrderTable}
 
 functions:
   addBook:
@@ -61,10 +63,21 @@ functions:
           path: /getUser
           authorizer: ${self:custom.authorizer}
 
+  placeOrder:
+    handler: src/handlers/placeOrder.handler
+    events:
+      - http:
+          method: POST
+          path: /placeOrder/{id}
+          authorizer: ${self:custom.authorizer}
+
 custom:
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-${self:provider.stage}-auth
   BookTable:
     name: !Ref BookTable
     arn: !GetAtt BookTable.Arn
+  OrderTable:
+    name: !Ref OrderTable
+    arn: !GetAtt OrderTable.Arn
   bundle:
     linting: false

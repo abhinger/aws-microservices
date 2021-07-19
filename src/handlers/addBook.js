@@ -13,12 +13,13 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
  * @return {object} inserted data in response
  */
 async function addBook(event, context) {
-  const { title, author, description, rating, stock } = event.body;
+  const { title, author, description, amount, rating, stock } = event.body;
   const now = new Date();
   const book = {
     id: uuid(),
     title,
     author,
+    amount,
     description,
     rating,
     stock,
