@@ -1,0 +1,68 @@
+service:
+  name: book-service
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+  environment:
+    BOOK_TABLE_NAME: ${self:custom.BookTable.name}
+  iamRoleStatements:
+    - ${file(iam/BookTableIAM.yml):BookTableIAM}
+
+resources:
+  Resources:
+    BookTable: ${file(resources/BookTable.yml):BookTable}
+
+functions:
+  addBook:
+    handler: src/handlers/addBook.handler
+    events:
+      - http:
+          method: POST
+          path: /addBook
+          authorizer: ${self:custom.authorizer}
+
+  getBooks:
+    handler: src/handlers/getBooks.handler
+    events:
+      - http:
+          method: GET
+          path: /getBooks
+          authorizer: ${self:custom.authorizer}
+
+  getBook:
+    handler: src/handlers/getBook.handler
+    events:
+      - http:
+          method: GET
+          path: /getBook/{id}
+          authorizer: ${self:custom.authorizer}
+
+  updateStock:
+    handler: src/handlers/updateStock.handler
+    events:
+      - http:
+          method: PATCH
+          path: updateStock/{id}/stock
+          authorizer: ${self:custom.authorizer}
+
+  getUser:
+    handler: src/handlers/getUser.handler
+    events:
+      - http:
+          method: GET
+          path: /getUser
+          authorizer: ${self:custom.authorizer}
+
+custom:
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-${self:provider.stage}-auth
+  BookTable:
+    name: !Ref BookTable
+    arn: !GetAtt BookTable.Arn
