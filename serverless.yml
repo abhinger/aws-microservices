@@ -66,3 +66,5 @@ custom:
   BookTable:
     name: !Ref BookTable
     arn: !GetAtt BookTable.Arn
+  bundle:
+    linting: false
