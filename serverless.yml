@@ -71,6 +71,22 @@ functions:
           path: /placeOrder/{id}
           authorizer: ${self:custom.authorizer}
 
+  getOrders:
+    handler: src/handlers/getOrders.handler
+    events:
+      - http:
+          method: GET
+          path: /getOrders
+          authorizer: ${self:custom.authorizer}
+
+  getUserOrders:
+    handler: src/handlers/getUserOrders.handler
+    events:
+      - http:
+          method: GET
+          path: /getUserOrders
+          authorizer: ${self:custom.authorizer}
+
 custom:
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-${self:provider.stage}-auth
   BookTable:
