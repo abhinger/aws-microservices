@@ -22,7 +22,7 @@ async function placeOrder(event, context) {
   const book = await getBookByID(bookId);
 
   if (book.stock < quantity) {
-    throw new createHttpError.Forbidden('Sotck unavailable');
+    throw new createHttpError.Forbidden('Stock unavailable');
   }
 
   const now = new Date();

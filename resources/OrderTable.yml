@@ -6,6 +6,15 @@ OrderTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
+      - AttributeName: orderPlacedBy
+        AttributeType: S
     KeySchema:
       - AttributeName: id
         KeyType: HASH
+    GlobalSecondaryIndexes:
+      - IndexName: buyerEmail
+        KeySchema:
+          - AttributeName: orderPlacedBy
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
