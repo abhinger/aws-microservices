@@ -14,6 +14,8 @@ provider:
   environment:
     BOOK_TABLE_NAME: ${self:custom.BookTable.name}
     ORDER_TABLE_NAME: ${self:custom.OrderTable.name}
+    CURRENCY_CONVERSION_API: http://data.fixer.io/api/latest
+    CURRENCY_CONVERSION_API_KEY: 38c5984951718a99a9e61211d9852f41
   iamRoleStatements:
     - ${file(iam/BookTableIAM.yml):BookTableIAM}
     - ${file(iam/OrderTableIAM.yml):OrderTableIAM}
@@ -85,6 +87,14 @@ functions:
       - http:
           method: GET
           path: /getUserOrders
+          authorizer: ${self:custom.authorizer}
+
+  currencyConversion:
+    handler: src/handlers/currencyConversion.handler
+    events:
+      - http:
+          method: POST
+          path: /currencyConversion
           authorizer: ${self:custom.authorizer}
 
 custom:

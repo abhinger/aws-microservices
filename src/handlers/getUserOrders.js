@@ -32,10 +32,13 @@ async function getUserOrders(event, context) {
   if (!orders) {
     throw new createHttpError.NotFound('No Order Placed');
   }
-  const userOrders = await orders.map(async (order) => {
-    const bookDetails = await getBookByID(order.bookId);
-    return { ...order, ...bookDetails };
-  });
+  const userOrders = await Promise.all(
+    orders.map(async (order) => {
+      const bookDetails = await getBookByID(order.bookId);
+      return { ...order, bookdetails: { ...bookDetails } };
+    })
+  );
+
   return {
     statusCode: 200,
     body: JSON.stringify(userOrders),

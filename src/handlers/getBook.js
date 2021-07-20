@@ -27,7 +27,6 @@ export async function getBookByID(id) {
   if (!book) {
     throw new createHttpError.NotFound('Not Found');
   }
-  console.log('book',book);
   return book;
 }
 
