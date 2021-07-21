@@ -1,7 +1,9 @@
+import validator from '@middy/validator';
 import AWS from 'aws-sdk';
 import createHttpError from 'http-errors';
 import { v4 as uuid } from 'uuid';
 import middleware from '../../lib/middleware';
+import addBookSchema from '../../lib/schemas/addBookSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -43,4 +45,11 @@ async function addBook(event, context) {
   };
 }
 
-export const handler = middleware(addBook);
+export const handler = middleware(addBook).use(
+  validator({
+    inputSchema: addBookSchema,
+    ajvOptions: {
+      strict: false,
+    },
+  })
+);

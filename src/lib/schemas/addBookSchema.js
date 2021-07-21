@@ -13,6 +13,9 @@ const schema = {
         rating: {
           type: 'string',
         },
+        amount: {
+          type: 'number',
+        },
         stock: {
           type: 'number',
         },
@@ -22,7 +25,7 @@ const schema = {
       },
       required: ['title', 'author', 'stock'],
     },
-    required: ['body'],
   },
+  required: ['body'],
 };
 export default schema;

@@ -1,6 +1,8 @@
+import validator from '@middy/validator';
 import AWS from 'aws-sdk';
 import createHttpError from 'http-errors';
 import middleware from '../../lib/middleware';
+import getBookSchema from '../../lib/schemas/getBookSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -49,4 +51,11 @@ async function getBook(event, context) {
     body: JSON.stringify(book),
   };
 }
-export const handler = middleware(getBook);
+export const handler = middleware(getBook).use(
+  validator({
+    inputSchema: getBookSchema,
+    ajvOptions: {
+      strict: false,
+    },
+  })
+);
