@@ -14,4 +14,5 @@ async function getUser(event, context) {
     body: JSON.stringify(user),
   };
 }
+
 export const handler = middleware(getUser);

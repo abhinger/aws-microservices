@@ -13,6 +13,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
  */
 export async function getBookByID(id) {
   let book;
+
   try {
     const result = await dynamodb
       .get({
@@ -24,9 +25,11 @@ export async function getBookByID(id) {
   } catch (error) {
     throw new createHttpError.InternalServerError(error);
   }
+
   if (!book) {
     throw new createHttpError.NotFound('Not Found');
   }
+
   return book;
 }
 

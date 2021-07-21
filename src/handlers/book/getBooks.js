@@ -13,6 +13,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
  */
 async function getBooks(event, context) {
   let books;
+
   try {
     const result = await dynamodb
       .scan({

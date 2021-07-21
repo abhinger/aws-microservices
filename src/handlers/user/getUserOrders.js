@@ -15,6 +15,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function getUserOrders(event, context) {
   const { email: orderPlacedBy } = event.requestContext.authorizer;
   let orders;
+
   try {
     const params = {
       TableName: process.env.ORDER_TABLE_NAME,
@@ -29,9 +30,11 @@ async function getUserOrders(event, context) {
   } catch (error) {
     throw new createHttpError.InternalServerError(error);
   }
+
   if (!orders) {
     throw new createHttpError.NotFound('No Order Placed');
   }
+
   const userOrders = await Promise.all(
     orders.map(async (order) => {
       const bookDetails = await getBookByID(order.bookId);
@@ -44,4 +47,5 @@ async function getUserOrders(event, context) {
     body: JSON.stringify(userOrders),
   };
 }
+
 export const handler = middleware(getUserOrders);

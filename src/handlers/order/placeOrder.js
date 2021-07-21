@@ -18,7 +18,7 @@ async function placeOrder(event, context) {
   const { email: orderPlacedBy } = event.requestContext.authorizer;
   const { id: bookId } = event.pathParameters;
   const { quantity, address } = event.body;
-
+  // get book by id
   const book = await getBookByID(bookId);
 
   if (book.stock < quantity) {
@@ -50,6 +50,7 @@ async function placeOrder(event, context) {
   } catch (error) {
     throw new createHttpError.InternalServerError(error);
   }
+
   return {
     statusCode: 201,
     body: JSON.stringify(order),

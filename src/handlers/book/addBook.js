@@ -36,6 +36,7 @@ async function addBook(event, context) {
   } catch (error) {
     throw new createHttpError.InternalServerError(error);
   }
+
   return {
     statusCode: 201,
     body: JSON.stringify(book),

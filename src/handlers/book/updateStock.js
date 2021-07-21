@@ -24,15 +24,18 @@ export async function updateStockById(id, stock) {
   };
 
   let updatedStock;
+
   try {
     const result = await dynamodb.update(params).promise();
     updatedStock = result.Attributes;
   } catch (error) {
     throw new createHttpError.InternalServerError(error);
   }
+
   if (!updatedStock) {
     throw new createHttpError.NotFound('Not Found');
   }
+
   return updatedStock;
 }
 
@@ -51,7 +54,9 @@ async function updateStock(event, context) {
   if (!book) {
     throw new createHttpError.NotFound('Not Found');
   }
+
   const updatedStock = await updateStockById(id, stock);
+
   return {
     statusCode: 200,
     body: JSON.stringify(updatedStock),
