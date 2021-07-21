@@ -1,4 +1,4 @@
-import middleware from '../lib/middleware';
+import middleware from '../../lib/middleware';
 
 /**
  * get user by auth token

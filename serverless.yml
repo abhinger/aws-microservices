@@ -26,7 +26,7 @@ resources:
 
 functions:
   addBook:
-    handler: src/handlers/addBook.handler
+    handler: src/handlers/book/addBook.handler
     events:
       - http:
           method: POST
@@ -34,7 +34,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   getBooks:
-    handler: src/handlers/getBooks.handler
+    handler: src/handlers/book/getBooks.handler
     events:
       - http:
           method: GET
@@ -42,7 +42,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   getBook:
-    handler: src/handlers/getBook.handler
+    handler: src/handlers/book/getBook.handler
     events:
       - http:
           method: GET
@@ -50,7 +50,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   updateStock:
-    handler: src/handlers/updateStock.handler
+    handler: src/handlers/book/updateStock.handler
     events:
       - http:
           method: PATCH
@@ -58,7 +58,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   getUser:
-    handler: src/handlers/getUser.handler
+    handler: src/handlers/user/getUser.handler
     events:
       - http:
           method: GET
@@ -66,7 +66,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   placeOrder:
-    handler: src/handlers/placeOrder.handler
+    handler: src/handlers/order/placeOrder.handler
     events:
       - http:
           method: POST
@@ -74,7 +74,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   getOrders:
-    handler: src/handlers/getOrders.handler
+    handler: src/handlers/order/getOrders.handler
     events:
       - http:
           method: GET
@@ -82,7 +82,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   getUserOrders:
-    handler: src/handlers/getUserOrders.handler
+    handler: src/handlers/user/getUserOrders.handler
     events:
       - http:
           method: GET
@@ -90,7 +90,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   currencyConversion:
-    handler: src/handlers/currencyConversion.handler
+    handler: src/handlers/currencyCOnversion/currencyConversion.handler
     events:
       - http:
           method: POST

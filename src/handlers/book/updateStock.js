@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 import createHttpError from 'http-errors';
-import middleware from '../lib/middleware';
+import middleware from '../../lib/middleware';
 import { getBookByID } from './getBook';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();

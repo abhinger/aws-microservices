@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createHttpError from 'http-errors';
-import middleware from '../lib/middleware';
+import middleware from '../../lib/middleware';
 /**
  * currency conversion
  *
